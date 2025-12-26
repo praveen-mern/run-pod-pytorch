@@ -22,6 +22,7 @@ from PIL import Image
 import uvicorn
 import torch
 from transformers import (
+    AutoModel,
     AutoModelForCausalLM,
     AutoTokenizer,
     AutoProcessor,
@@ -152,10 +153,19 @@ def initialize_model():
             except ImportError:
                 print("Warning: bitsandbytes not available, loading in full precision")
         
-        model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            **model_kwargs
-        )
+        # Use AutoModel for vision-language models, AutoModelForCausalLM for text-only models
+        if is_vision_model:
+            print("Using AutoModel for vision-language model...")
+            model = AutoModel.from_pretrained(
+                model_name,
+                **model_kwargs
+            )
+        else:
+            print("Using AutoModelForCausalLM for text-only model...")
+            model = AutoModelForCausalLM.from_pretrained(
+                model_name,
+                **model_kwargs
+            )
         
         # Move model to device
         if device == "cuda":
