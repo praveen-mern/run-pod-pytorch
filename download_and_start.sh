@@ -42,8 +42,9 @@ if [ -n "$GIST_ID" ] && [ -n "$GITHUB_USER" ]; then
     curl -sL "${BASE_URL}/requirements.txt" -o requirements.txt || {
         echo "⚠️  Failed to download requirements.txt, using defaults..."
         cat > requirements.txt << 'REQEOF'
-torch>=2.0.0
-transformers>=4.35.0
+torch>=2.0.0,<2.5.0
+torchvision>=0.15.0,<0.20.0
+transformers>=4.40.0
 accelerate>=0.25.0
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
@@ -107,8 +108,9 @@ elif [ -n "$GITHUB_REPO" ]; then
     if [ ! -f "requirements.txt" ]; then
         echo "⚠️  requirements.txt not found, using defaults..."
         cat > requirements.txt << 'REQEOF'
-torch>=2.0.0
-transformers>=4.35.0
+torch>=2.0.0,<2.5.0
+torchvision>=0.15.0,<0.20.0
+transformers>=4.40.0
 accelerate>=0.25.0
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
